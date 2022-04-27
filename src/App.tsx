@@ -2,8 +2,9 @@ import React from 'react';
 import logo from './logo.svg';
 import Header from './components/Header'
 import './App.css';
-import {BrowserRouter as Router, Routes, Route, Link, BrowserRouter} from 'react-router-dom';
+import {BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
 import Homepage from './components/Homepage';
+import Map from "./components/Map";
 
 function App() {
   return (
@@ -11,6 +12,7 @@ function App() {
       <Routes>
         <Route path='/' element={<Home/>} /> 
         <Route path='/default' element={<Default/>} /> 
+        <Route path='/map' element={<Map/>}/>
       </Routes> 
     </Router>
   );
