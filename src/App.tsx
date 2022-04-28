@@ -2,30 +2,32 @@ import React from 'react';
 import logo from './logo.svg';
 import Header from './components/Header'
 import './App.css';
-import {BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
 import Homepage from './components/Homepage';
-import Map from "./components/Map";
+import MapPage from './components/MapPage';
+import SellPage from './components/SellPage';
 
 function App() {
   return (
     <Router>
       <Routes>
-        <Route path='/' element={<Home/>} /> 
-        <Route path='/default' element={<Default/>} /> 
-        <Route path='/map' element={<Map/>}/>
-      </Routes> 
+        <Route path='/' element={<Home />} />
+        <Route path='/default' element={<Default />} />
+        <Route path='/buy' element={<MapPage />} />
+        <Route path='/sell' element={<SellPage />} />
+      </Routes>
     </Router>
   );
 }
 const Home = () => {
   return (
-    <Homepage/>
+    <Homepage />
   )
 }
 const Default = () => {
   return (
     <div className="App">
-      <Header/>
+      <Header />
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
         <p>

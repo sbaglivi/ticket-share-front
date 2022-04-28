@@ -1,0 +1,7 @@
+.addressSearch {
+    position: absolute;
+    left: 50%;
+    transform: translate(-50%);
+    top: 1em;
+    z-index: 99;
+}

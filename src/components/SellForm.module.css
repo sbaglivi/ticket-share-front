@@ -1,0 +1,16 @@
+.sellForm {
+    flex-grow: 1;
+    margin: 0 auto;
+}
+.sellForm > *+* {
+    margin-top: 1em;
+}
+#expireTime {
+    width: 4em;
+}
+#price {
+    width: 5em;
+}
+.row {
+    max-width: 100%;
+}

@@ -1,4 +1,7 @@
-import styles from './Map.module.css';
+import styles from './SmallMap.module.css';
+import 'ol/ol.css';
+import 'ol-geocoder/dist/ol-geocoder.min.css'
+import './SmallMap.css';
 import Map from 'ol/Map';
 import View from 'ol/View';
 import { OSM, Vector as VectorSource } from 'ol/source';
@@ -9,29 +12,11 @@ import { Point } from 'ol/geom';
 import { Feature } from 'ol/index';
 import { Overlay } from 'ol';
 import { useEffect } from 'react';
+import Geocoder from 'ol-geocoder';
 
 
 const MapComponent = () => {
-    let count = 0;
-    function getTicketCoordinates() {
-        let ticketCoordinates = [
-            [11.249581636974833, 43.77583693783308],
-            [11.252499880383036, 43.766788016389086],
-            [11.239453615734599, 43.769143346919435],
-            [11.261941256115458, 43.77193243417858],
-            [11.25541812379124, 43.770320977404566],
-        ]
-        return ticketCoordinates;
-    }
-    function getFeaturesFromCoordinatesArray(coordinates: number[][]): Feature[] {
-        let features = coordinates.map(coordinate =>
-            new Feature(new Point(fromLonLat(coordinate)))
-        )
-        return features;
-    }
     useEffect(() => {
-        let ticketCoordinates = getTicketCoordinates();
-        let ticketFeatures = getFeaturesFromCoordinatesArray(ticketCoordinates);
         let imageStyle = new Circle({
             fill: new Fill({
                 color: [80, 80, 80, 1],
@@ -44,10 +29,9 @@ const MapComponent = () => {
         })
         /* From what I understand the vector layer is only responsible for showing points and things that I draw on the map. 
         The map image is all from the tile layer  */
+        let vectorSource = new VectorSource();
         let vector = new VectorImage({
-            source: new VectorSource({
-                features: ticketFeatures
-            }),
+            source: vectorSource,
             style: new Style({
                 image: imageStyle,
             })
@@ -63,15 +47,29 @@ const MapComponent = () => {
                 zoom: 14,
             })
         })
+        let currentFeature: Feature | null = null;
         olMap.on('click', e => {
-            console.log(toLonLat(e.coordinate));
+            if (currentFeature) {
+                vectorSource.removeFeature(currentFeature);
+            }
+            currentFeature = new Feature(new Point(e.coordinate));
+            vectorSource.addFeature(currentFeature);
         })
-        count++;
-        console.log(count);
+        // let geocoder = new Geocoder('nominatim', {
+        //     provider: 'osm',
+        //     countryCodes: 'IT',
+        //     lang: 'en-US', //en-US, fr-FR
+        //     placeholder: 'Search for ...',
+        //     targetType: 'text-input', // or glass-button
+        //     limit: 5,
+        //     keepOpen: true
+        // })
+        // olMap.addControl(geocoder);
 
     }, [])
     return (
-        <div id='map' className={styles.map}></div>
+        <div id='map' className={styles.map}>
+        </div>
     )
 }
 
