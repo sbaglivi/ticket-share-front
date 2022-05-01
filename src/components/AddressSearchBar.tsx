@@ -5,7 +5,6 @@ type AddressProps = {
 }
 const geocodingCache = new Map();
 const AddressSearchBar: React.FC<AddressProps> = ({ setSearchResults }) => {
-    const GEOCODING_API_KEY = '99101f60bfbe6b255fa4cc41bae7bf66';
     let [query, setQuery] = useState('');
     async function searchAddress(address: string) {
         let results;
@@ -13,7 +12,6 @@ const AddressSearchBar: React.FC<AddressProps> = ({ setSearchResults }) => {
             console.log(`Thanks to a cache we didn't have to bother external services for these!`)
             results = geocodingCache.get(address);
         } else {
-            // let response = await fetch(`http://api.positionstack.com/v1/forward?access_key=${GEOCODING_API_KEY}&query=${address}&output=json`)
             let response = await fetch(`http://localhost:5000/api/geocoding/${address}`);
             if (response.ok) {
                 results = await response.json();
