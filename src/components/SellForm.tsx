@@ -1,10 +1,10 @@
-import AddressSearchBar from './AddressSearchBar';
 import styles from './SellForm.module.css'
 import SmallMap from './SmallMap';
-
+import { useState } from 'react';
 const SellForm = () => {
+    let [coordinates, setCoordinates] = useState([NaN, NaN])
     return (
-        <form method="" action="" className={styles.sellForm} >
+        <form method="POST" action="http://localhost:5000/ticket" className={styles.sellForm} id='sellForm'>
             <div className={styles.row}>
                 <label htmlFor={styles.price}>
                     Price:
@@ -15,13 +15,15 @@ const SellForm = () => {
                 <label htmlFor={styles.expireTime}>
                     Expire time:
                 </label>
-                <input type="text" id={styles.expireTime} placeholder="HH:MM" pattern="([01]?[0-9]|2[0-3]):[0-5][0-9]" required />
+                <input type="text" name='expireTime' id={styles.expireTime} placeholder="HH:MM" pattern="([01]?[0-9]|2[0-3]):[0-5][0-9]" required />
             </div>
-            <div className={styles.row}>
-                <p>Pick the location on the map where you'd like to sell the ticket</p>
-                <SmallMap />
-                <AddressSearchBar />
+            <p>Pick the location on the map where you'd like to sell the ticket</p>
+            <div className={`${styles.row} ${styles.mapDiv}`}>
+                <SmallMap setCoordinates={setCoordinates} />
+                <input type='number' step='any' id='latitude' placeholder='latitude' name='latitude' className={styles.latitude} readOnly value={coordinates[0]} required min='-180' max='180' />
+                <input type='number' step='any' id='longitude' placeholder='longitude' name='longitude' className={styles.longitude} readOnly value={coordinates[1]} required min='-85' max='85' />
             </div>
+
             <button>Submit</button>
         </form >
     )

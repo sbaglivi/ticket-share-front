@@ -1,21 +1,35 @@
 import styles from './AddressSearchBar.module.css';
 import { useState } from 'react';
-
-const AddressSearchBar = () => {
+type AddressProps = {
+    setSearchResults: Function
+}
+const geocodingCache = new Map();
+const AddressSearchBar: React.FC<AddressProps> = ({ setSearchResults }) => {
+    const GEOCODING_API_KEY = '99101f60bfbe6b255fa4cc41bae7bf66';
     let [query, setQuery] = useState('');
-    let [results, setResults] = useState([]);
     async function searchAddress(address: string) {
-        let response = await fetch(`https://nominatim.openstreetmap.org/search?${address}`, { mode: 'cors' })
-        if (response.ok) {
-            let results = await response.json();
-            console.log(results);
-            return;
+        let results;
+        if (geocodingCache.has(address)) {
+            console.log(`Thanks to a cache we didn't have to bother external services for these!`)
+            results = geocodingCache.get(address);
+        } else {
+            // let response = await fetch(`http://api.positionstack.com/v1/forward?access_key=${GEOCODING_API_KEY}&query=${address}&output=json`)
+            let response = await fetch(`http://localhost:5000/api/geocoding/${address}`);
+            if (response.ok) {
+                results = await response.json();
+                geocodingCache.set(address, results);
+                console.log(`data for search: ${address}`)
+                console.log(results);
+            } else {
+                console.log(response);
+                return;
+            }
         }
-        console.log('response was not ok :(')
+        setSearchResults(results.results[0].locations);
     }
     const submitIfEnter = (keyDownEvent: { code: string, preventDefault: Function }) => {
         if (keyDownEvent.code === 'Enter') {
-
+            console.log('enter was pressed')
             searchAddress(query);
             keyDownEvent.preventDefault();
         }

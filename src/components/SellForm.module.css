@@ -14,3 +14,29 @@
 .row {
     max-width: 100%;
 }
+.mapDiv {
+    position: relative;
+}
+.latitude, .longitude {
+    position: absolute;
+    right: 0px;
+    width: 8em;
+    border: none;
+}
+.latitude {
+    top: 0px;
+}
+.longitude {
+    top: 20px;
+}
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type=number] {
+  -moz-appearance: textfield;
+  max-width: 32vw;
+}
