@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import logo from './logo.svg';
 import Header from './components/Header'
 import './App.css';
@@ -6,12 +6,15 @@ import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
 import Homepage from './components/Homepage';
 import MapPage from './components/MapPage';
 import SellPage from './components/SellPage';
+import LoginPage from './components/LoginPage';
 
 function App() {
+  const [token, setToken] = useState(null);
   return (
     <Router>
       <Routes>
         <Route path='/' element={<Home />} />
+        <Route path='/login' element={<LoginPage setToken={setToken} />} />
         <Route path='/default' element={<Default />} />
         <Route path='/buy' element={<MapPage />} />
         <Route path='/sell' element={<SellPage />} />

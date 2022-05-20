@@ -7,8 +7,8 @@ const Navbar = () => {
             <nav>
                 <Link to='/'>Home</Link>
                 <div className={styles.otherLinks}>
-                <Link to='/sell'>Sell</Link>
-                <Link to='/buy'>Buy</Link>
+                    <Link to='/sell'>Sell</Link>
+                    <Link to='/buy'>Buy</Link>
                 </div>
             </nav>
         </header>
